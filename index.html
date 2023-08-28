@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- tailwind css and daisy ui cdn  -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.6.2/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Phone Hunter</title>
+</head>
+<body id="home">
+    <nav class="navbar bg-base-100 sticky top-0 px-5 md:px-[10%] shadow-xl z-40">
+        <div>
+          <a href="#home" class="btn btn-ghost normal-case text-xl">Phone Hunter</a>
+        </div>
+      </nav>
+    <header class="flex justify-center items-center mt-10 px-5">
+        <input id="searchFiled" type="text" placeholder="search" class="input input-bordered w-full max-w-xs rounded-r-none" />
+        <button onclick="handleSearch()" class="btn btn-primary rounded-l-none">search</button>
+    </header>
+    <div class="text-center text-3xl mt-5 font-semibold">
+        <h1>Total: <span id="total"></span></h1>
+    </div>
+    <div class="fixed top-0 py-20 w-screen h-screen z-50 bg-white bg-opacity-80 " id="spinner">
+        <div class="felx justify-center items-center">
+            <div class="text-center my-5 text-primary ">
+                <div class="flex justify-center items-center gap-1 my-5">
+                    <span class="loading loading-ring loading-xs"></span>
+                    <span class="loading loading-ring loading-sm"></span>
+                    <span class="loading loading-ring loading-md"></span>
+                    <span class="loading loading-ring loading-lg"></span>
+                </div>
+                <div class="flex justify-center items-center gap-1 my-5">
+                    <span class="loading loading-bars loading-xs"></span>
+                    <span class="loading loading-bars loading-sm"></span>
+                    <span class="loading loading-bars loading-md"></span>
+                    <span class="loading loading-bars loading-lg"></span>
+                </div>
+                <div class="flex justify-center items-center gap-1 my-5">
+                    <span class="loading loading-ball loading-xs"></span>
+                    <span class="loading loading-ball loading-sm"></span>
+                    <span class="loading loading-ball loading-md"></span>
+                    <span class="loading loading-ball loading-lg"></span>
+                </div>
+                <div class="flex justify-center items-center gap-1 my-5">
+                    <span class="loading loading-spinner text-primary"></span>
+                    <span class="loading loading-spinner text-secondary"></span>
+                    <span class="loading loading-spinner text-accent"></span>
+                    <span class="loading loading-spinner text-neutral"></span>
+                    <span class="loading loading-spinner text-info"></span>
+                    <span class="loading loading-spinner text-success"></span>
+                    <span class="loading loading-spinner text-warning"></span>
+                    <span class="loading loading-spinner text-error"></span>
+                </div>
+                <div class="flex justify-center items-center gap-1 my-5">
+                    <span class="loading loading-dots loading-xs"></span>
+                    <span class="loading loading-dots loading-sm"></span>
+                    <span class="loading loading-dots loading-md"></span>
+                    <span class="loading loading-dots loading-lg"></span>
+                </div>
+                <div class="flex justify-center items-center gap-1 my-5">
+                    <span class="loading loading-spinner loading-xs"></span>
+                    <span class="loading loading-spinner loading-sm"></span>
+                    <span class="loading loading-spinner loading-md"></span>
+                    <span class="loading loading-spinner loading-lg"></span>
+                </div>
+                <div class="flex justify-center items-center gap-1 my-5">
+                    <span class="loading loading-infinity loading-xs"></span>
+                    <span class="loading loading-infinity loading-sm"></span>
+                    <span class="loading loading-infinity loading-md"></span>
+                    <span class="loading loading-infinity loading-lg"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <main class="p-5 md:px-[10%] my-10">
+        <div id="notFound" class="md:w-1/2 lg:w-1/3 flex justify-center items-center gap-5 font-bold text-6xl text-center mx-auto">
+            <img src="./404.jpg" alt="" class="w-full">
+            <h1>Not found</h1>
+            <button class="btn btn-primary" id="goHome">Go Home</button>
+        </div>
+        <section id="phoneContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        </section>
+        <section class="flex justify-center items-center m-5">
+            <button onclick="handleShowAll()" class="btn btn-primary" id="showAll">Show all</button>
+        </section>
+        <!-- Open the modal using ID.showModal() method -->
+<dialog id="a" class="modal modal-bottom sm:modal-middle ">
+  <form method="dialog" class="modal-box">
+    <div class="card card-compact bg-base-100 p-5"  id="details">
+        <figure><img src="${phone.image}" alt="img" /></figure>
+        <div class="card-body">
+          <h2 class="card-title">${phone.name}</h2>
+          <p><span class="font-semibold">Storage:</span> ${phone.mainFeatures.storage}</p>
+          <p><span class="font-semibold">Display Size:</span> ${phone.mainFeatures.displaySize}</p>
+          <p><span class="font-semibold">Chipset:</span> ${phone.mainFeatures.chipSet}</p>
+          <p><span class="font-semibold">Memory:</span> ${phone.mainFeatures.memory}</p>
+          <p><span class="font-semibold">Slug:</span> ${phone.slug}</p>
+          <p><span class="font-semibold">Release data:</span> ${phone.releaseDate}</p>
+          <p><span class="font-semibold">Brand:</span> ${phone.brand}</p>
+          <p><span class="font-semibold">GPS:</span> ${phone.others.GPS}</p>
+          <p><span class="font-semibold">NFC:</span> ${phone.others.NFC}</p>
+          <p><span class="font-semibold">Radio:</span> ${phone.others.Radio}</p>
+          <p><span class="font-semibold">USB:</span> ${phone.others.USB}</p>
+          <p><span class="font-semibold">WLAN:</span> ${phone.others.WLAN}</p>
+          <div class="card-actions justify-end">
+            <button class="btn btn-primary">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</dialog>
+    </main>
+    <footer class="footer py-10 px-5 md:px-[10%] bg-base-200 text-base-content">
+        <div>
+          <svg width="50" height="50" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" class="fill-current"><path d="M22.672 15.226l-2.432.811.841 2.515c.33 1.019-.209 2.127-1.23 2.456-1.15.325-2.148-.321-2.463-1.226l-.84-2.518-5.013 1.677.84 2.517c.391 1.203-.434 2.542-1.831 2.542-.88 0-1.601-.564-1.86-1.314l-.842-2.516-2.431.809c-1.135.328-2.145-.317-2.463-1.229-.329-1.018.211-2.127 1.231-2.456l2.432-.809-1.621-4.823-2.432.808c-1.355.384-2.558-.59-2.558-1.839 0-.817.509-1.582 1.327-1.846l2.433-.809-.842-2.515c-.33-1.02.211-2.129 1.232-2.458 1.02-.329 2.13.209 2.461 1.229l.842 2.515 5.011-1.677-.839-2.517c-.403-1.238.484-2.553 1.843-2.553.819 0 1.585.509 1.85 1.326l.841 2.517 2.431-.81c1.02-.33 2.131.211 2.461 1.229.332 1.018-.21 2.126-1.23 2.456l-2.433.809 1.622 4.823 2.433-.809c1.242-.401 2.557.484 2.557 1.838 0 .819-.51 1.583-1.328 1.847m-8.992-6.428l-5.01 1.675 1.619 4.828 5.011-1.674-1.62-4.829z"></path></svg>
+          <p>ACME Industries Ltd.<br/>Providing reliable tech since 1992</p>
+        </div> 
+        <div>
+          <span class="footer-title">Services</span> 
+          <a class="link link-hover">Branding</a> 
+          <a class="link link-hover">Design</a> 
+          <a class="link link-hover">Marketing</a> 
+          <a class="link link-hover">Advertisement</a>
+        </div> 
+        <div>
+          <span class="footer-title">Company</span> 
+          <a class="link link-hover">About us</a> 
+          <a class="link link-hover">Contact</a> 
+          <a class="link link-hover">Jobs</a> 
+          <a class="link link-hover">Press kit</a>
+        </div> 
+        <div>
+          <span class="footer-title">Legal</span> 
+          <a class="link link-hover">Terms of use</a> 
+          <a class="link link-hover">Privacy policy</a> 
+          <a class="link link-hover">Cookie policy</a>
+        </div>
+      </footer>
+
+    
+    <script>
+        const searchFiled = document.getElementById('searchFiled');
+        searchFiled.value = 'a';
+        const showAll = document.getElementById('showAll');
+        const notFound = document.getElementById('notFound');
+        notFound.style.display = 'none';
+        showAll.style.display = 'none';
+        const loadPhone =async(searchText='a' , isShowAll) =>{
+            const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`);
+            const data = await res.json();
+            const phones = data.data;
+            displayPhone(phones, isShowAll)
+        }
+        loadPhone()
+        const displayPhone = (phones , isShowAll) =>{
+            const total = document.getElementById('total');
+            const totalLength = phones.length;
+            total.innerText = totalLength;
+            if(totalLength <= 0){
+                notFound.style.display = 'block';
+            }
+            else{
+                notFound.style.display = 'none';
+            }
+            if(totalLength > 12 && !isShowAll){
+                showAll.style.display = 'block';
+            }
+            else{
+                showAll.style.display = 'none';
+            }
+            const phoneContainer = document.getElementById('phoneContainer');
+            if(!isShowAll){
+                phones = phones.slice(0,12);
+            }
+            phoneContainer.innerText = '';
+            phones.forEach(phone => {
+                const total = document.getElementById('total');
+                const phoneCard = document.createElement('div');
+                phoneCard.classList = `card card-compact bg-base-100 shadow-xl`;
+                phoneCard.innerHTML = `
+                <figure><img src="${phone.image}" alt="phone" class="p-5"/></figure>
+                <div class="card-body text-center">
+                    <p>${phone.brand}</p>
+                    <h2 class="text-xl font-bold">${phone.phone_name}</h2>
+                    <div class="card-actions justify-center my-5">
+                        <button onclick="handleShowDetails('${phone.slug}')" class="btn btn-primary">Show details</button>
+                    </div>
+                </div>
+                `;
+                phoneContainer.appendChild(phoneCard);
+            });
+            loadingSpinner(false);
+        }
+
+        document.getElementById('goHome').addEventListener('click', function () {
+            loadingSpinner(true);
+            const searchFiled = document.getElementById('searchFiled');
+            searchFiled.value = 'a';
+            loadPhone();
+        })
+
+        const handleSearch = (isShowAll) => {
+            loadingSpinner(true);
+            const searchFiled = document.getElementById('searchFiled');
+            const searchValue = searchFiled.value;
+            // searchFiled.value = '';
+            showAll.style.display = 'none';
+            loadPhone(searchValue , isShowAll);
+        }
+        const loadingSpinner = (isLoading) => {
+            const spinner = document.getElementById('spinner');
+            if(isLoading){
+                spinner.classList.remove('hidden')
+            }
+            else{
+                spinner.classList.add('hidden')
+            }
+        }
+        const handleShowAll = () => {
+            handleSearch(true);
+        }
+        const handleShowDetails =async (id) => {
+            loadingSpinner(true);
+            const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`);
+            const data = await res.json();
+            const phone = data.data;
+            showPhoneDetails(phone)
+        }
+
+        const showPhoneDetails = (phone) => {
+            const details = document.getElementById('details');
+            details.innerText = '';
+            console.log(phone);
+            a.showModal()
+            loadingSpinner(false);
+            const div = document.createElement('div');
+            div.innerHTML = `
+            <figure><img src="${phone.image}" alt="img" /></figure>
+            <div class="card-body">
+            <h2 class="card-title">${phone.name}</h2>
+            <p><span class="font-semibold">Storage:</span> ${phone?.mainFeatures?.storage}</p>
+            <p><span class="font-semibold">Display Size:</span> ${phone?.mainFeatures?.displaySize}</p>
+            <p><span class="font-semibold">Chipset:</span> ${phone?.mainFeatures?.chipSet}</p>
+            <p><span class="font-semibold">Memory:</span> ${phone?.mainFeatures?.memory}</p>
+            <p><span class="font-semibold">Slug:</span> ${phone?.slug}</p>
+            <p><span class="font-semibold">Release data:</span> ${phone?.releaseDate}</p>
+            <p><span class="font-semibold">Brand:</span> ${phone?.brand}</p>  
+            <p><span class="font-semibold">GPS:</span> ${phone?.others?.GPS || ''}</p>
+            <p><span class="font-semibold">NFC:</span> ${phone?.others?.NFC || ''}</p>
+            <p><span class="font-semibold">Radio:</span> ${phone?.others?.Radio || ''}</p>
+            <p><span class="font-semibold">USB:</span> ${phone?.others?.USB || ''}</p>
+            <p><span class="font-semibold">WLAN:</span> ${phone?.others?.WLAN || ''}</p>
+            <div class="card-actions justify-end">
+                <button class="btn btn-primary">Close</button>
+            </div>
+            </div>
+            `
+            details.appendChild(div);
+        }
+    </script>
+</body>
+</html>
